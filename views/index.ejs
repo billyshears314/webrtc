@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+  </head>
+  <body>
+	<center><h1>Exchanger</h1></center>
+   <input type="text" id="usernameField"></input>
+   <button id="addUserButton" type="button">Add User</button>
+   <textarea cols="40" rows="8" id="chatbox"></textarea>
+   <!--
+	<button id="sendButton" type="button">Send</button>   
+	-->
+	<div id="userlist">
+	</div>
+    <video id="their-video" autoplay></video>
+    <video id="my-video" muted="true" autoplay></video>
+  </body>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="http://192.168.1.143:8080/socket.io/socket.io.js"></script>
+  <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+  <script src='/javascripts/socket.js' ></script>
+   <script src='/javascripts/webrtc.js' ></script>
+</html>
