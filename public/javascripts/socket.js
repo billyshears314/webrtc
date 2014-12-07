@@ -1,17 +1,33 @@
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect('http://192.168.1.143:8080');
 var peerIDs = [];
+var otherPeerID;
+var c;
  
 $(function(){
-
-	$('#sendButton').click(function(){	
-		socket.emit('send', {message: "Hello, I'm Harry Potter."});
-	}); 	
 	
 	$('#addUserButton').click(function(){
 		socket.emit('addUser', {username: $('#usernameField').val(), id: myPeerId});
 		$('#usernameField').val('');
 	});
 	
+	$('#sendMessage').click(function(){
+	 	  sendMessage();
+	});
+	
+	$("input").keyup(function(e) {
+	e.preventDefault();
+	
+		if(e.keyCode == 13) {
+			sendMessage();
+  		}
+	});
+	
+	function sendMessage(){
+		var temp = $('#chatfield').val();		 	  
+	  	  c.send(temp);
+ 		  $('#chatbox').append(temp + '\n');
+  		  $('#chatfield').val('');
+	}
 	
 	socket.on('receive', function(data){
  		console.log("I've received message.");
@@ -24,40 +40,36 @@ $(function(){
  		peerIDs = [];
  		for(var i=0; i<data.length; i++){ 			
  			if(data[i].id==myPeerId){
- 				$('#userlist').append('<strong>me - </strong>');
+ 				//$('#userlist').append('<strong>me - </strong>');
  			}
  			else{
- 				$('#userlist').append('<button id=connectUserButton'+i+' class="sendMessageButton" type="button">Send Message</button>');
+ 				$('#userlist').append('<button id=connectUserButton'+i+' class="connect btn btn-success" type="button">Connect</button>');
  			
- 				
-		 		$('.sendMessageButton').click(function(){
-					console.log('click');
+		 		$('.connect').click(function(){
+		
 					var buttonID = $(this).attr('id');	
 
 					buttonID = parseInt(buttonID.substring(buttonID.length-1, buttonID.length));
+					otherPeerID = peerIDs[buttonID];
 
-					var c = peer.connect(peerIDs[buttonID]);
-					var call = peer.call(peerIDs[buttonID], mystream);	
-					console.log('test');
-					 call.on('stream', function(remoteStream) {
+				   //Connect for Text Messaging
+					c = peer.connect(otherPeerID);
 				
+				   c.on('data', function(data) {
+         			$('#chatbox').append(data + '\n');
+      			});
+	
+				   //Connect for Video Chatting		
+					var call = peer.call(otherPeerID, mystream);	
+	
+					call.on('stream', function(remoteStream) {
 	 				  $('#their-video').prop('src', URL.createObjectURL(remoteStream));
 	 				 });	 
-		 
-		  		 c.on('data', function(data) {
-		   	  // When we receive 'Hello', send ' world'.
-				var temp = $('#usernameField').val();		   	  
-		   	  console.log(temp);
-		   	  c.send(temp);
- 				  $('#chatbox').append(temp + '<br>');
- 				 
-		  		  $('#usernameField').val('');
-		  		 
-		  		 });
 		   
 				});
+				$('#userlist').append('<strong>'+data[i].username+'</strong><br>');
  			}
- 			$('#userlist').append('<strong>'+data[i].username+'</strong><br>');
+ 			
  			
  			peerIDs.push(data[i].id);
  		}

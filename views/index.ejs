@@ -3,23 +3,39 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   </head>
   <body>
-	<center><h1>Exchanger</h1></center>
-   <input type="text" id="usernameField"></input>
-   <button id="addUserButton" type="button">Add User</button>
-   <textarea cols="40" rows="8" id="chatbox"></textarea>
-   <!--
-	<button id="sendButton" type="button">Send</button>   
-	-->
-	<div id="userlist">
+
+	<div class="col-md-4">
+	   <input type="text" id="usernameField"></input>
+	   <button id="addUserButton" type="button" class="btn btn-primary">Add User</button>
+	  
+		<div id="userlist">
+		</div>
+			<table>
+				<tr>
+					<td>Matt</td>
+					<td><button type="button" class="btn btn-success">Connect</button></td>
+				</tr>			
+				<tr>
+					<td>Alex</td>
+					<td><button type="button" class="btn btn-success">Connect</button></td>
+				</tr>
+			</table>
 	</div>
-    <video id="their-video" autoplay></video>
-    <video id="my-video" muted="true" autoplay></video>
+	<div class="col-md-8" style="margin-top:0px;padding-top:0px">
+	
+    <video id="their-video" autoplay width=600 height=450 style="border-style:solid; border-width:2px"></video>
+    <video id="my-video" muted="true" autoplay width=200 height=200 style="position:absolute;top:0px;left:0px;"></video>
+     <textarea cols="125" rows="6" id="chatbox"></textarea>
+     <input type="text" id="chatfield" style="margin-bottom:60px"></input>
+     <button type="button" id="sendMessage">Send</button>
+    </div>
   </body>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="http://192.168.1.143:8080/socket.io/socket.io.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
   <script src='/javascripts/socket.js' ></script>
    <script src='/javascripts/webrtc.js' ></script>
